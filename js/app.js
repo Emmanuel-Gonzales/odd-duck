@@ -1,8 +1,10 @@
 'use strict';
 
+// ***** Globals *****
 let productArray = [];
 let votingRounds = 25;
 
+// ***** DOM Windows *****
 let imgSection = document.getElementById('img-section');
 let buttonElem = document.querySelector('button')
 let imgOne = document.getElementById('img-one');
@@ -10,6 +12,7 @@ let imgTwo = document.getElementById('img-two');
 let imgThree = document.getElementById('img-three');
 let results = document.getElementById('results');
 
+// ***** Constructor Function *****
 function Product(name, fileExtension = 'jpg') {
   this.name = name;
   this.image = `img/${name}.${fileExtension}`;
@@ -17,6 +20,7 @@ function Product(name, fileExtension = 'jpg') {
   this.votes = 0;
 }
 
+// ***** HELPER FUNCTIONS / UTILITIES *****
 function randomImg() {
   return Math.floor(Math.random() * productArray.length);
 }
@@ -91,6 +95,7 @@ function handleShowResults(){
   }
 }
 
+// ***** EXECTUABLE CODE *****
 let bag = new Product('bag');
 let banana = new Product('banana');
 let bathroom = new Product('bathroom');
