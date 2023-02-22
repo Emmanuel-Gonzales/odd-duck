@@ -6,11 +6,14 @@ let votingRounds = 25;
 
 // ***** DOM Windows *****
 let imgSection = document.getElementById('img-section');
-let buttonElem = document.querySelector('button')
+let buttonElem = document.querySelector('button');
 let imgOne = document.getElementById('img-one');
 let imgTwo = document.getElementById('img-two');
 let imgThree = document.getElementById('img-three');
-let results = document.getElementById('results');
+// let results = document.getElementById('results');
+
+// ***** CANVAS ELEMENT FOR CHART *****
+let ctx = document.getElementById('my-chart').getContext('2d');
 
 // ***** Constructor Function *****
 function Product(name, fileExtension = 'jpg') {
@@ -25,18 +28,23 @@ function randomImg() {
   return Math.floor(Math.random() * productArray.length);
 }
 
-function renderImg() {
-  let imgOneIndex = randomImg();
-  let imgTwoIndex = randomImg();
-  let imgThreeIndex = randomImg();
+let indexArray = [];
 
-  while (imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex) {
-    imgTwoIndex = randomImg();
-    imgThreeIndex = randomImg();
+function renderImg() {
+
+  while(indexArray.length < 6){
+    let randomNum = randomImg();
+    if (!indexArray.includes(randomNum)){
+      indexArray.unshift(randomNum);
+    }
   }
-  while (imgTwoIndex === imgThreeIndex) {
-    imgThreeIndex = randomImg();
-  }
+
+
+  let imgOneIndex = indexArray.pop();
+  let imgTwoIndex = indexArray.pop();
+  let imgThreeIndex = indexArray.pop();
+
+  console.log(imgOneIndex, imgTwoIndex, imgThreeIndex);
 
   imgOne.src = productArray[imgOneIndex].image;
   imgOne.alt = productArray[imgOneIndex].name;
@@ -64,6 +72,56 @@ function renderImg() {
   productArray[imgThreeIndex].views++;
 }
 
+// ***** HELPER FUNCTION TO RENDER CHART *****
+function renderChart(){
+
+  let productNames = [];
+  let productVotes = [];
+  let productViews = [];
+
+  for (let i = 0; i < productArray.length; i++){
+    productNames.push(productArray[i].name);
+    productVotes.push(productArray[i].votes);
+    productViews.push(productArray[i].views);
+  }
+
+  console.log(productNames);
+  console.log(productVotes);
+  console.log(productViews);
+
+  let chartObj = {
+    type: 'bar',
+    backgroundColor:['blue'],
+    data: {
+      labels: productNames,
+      datasets:[{
+        label: '# of Votes',
+        data: productVotes,
+        borderWidth: 3,
+        backgroundColor: ['blue'],
+        borderColor: ['black'],
+      },
+      {
+        label: '# of Views',
+        data: productViews,
+        borderWidth: 3,
+        backgroundColor: ['black'],
+        borderColor: ['blue'],
+      },
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+  let chart = new Chart(ctx, chartObj);
+}
+
+// ***** EVENT HANDLERS *****
 function handleImgClick(event) {
   let imgClicked = event.target.title;
   console.log(imgClicked);
@@ -85,12 +143,16 @@ function handleImgClick(event) {
 
 function handleShowResults(){
   if (votingRounds === 0){
-    for (let i = 0; i < productArray.length; i++) {
-      let resultElem = document.createElement('li');
-      resultElem.textContent = `${productArray[i].name}: Views: ${productArray[i].views} Votes:     
-       ${productArray[i].votes}`;
-      results.appendChild(resultElem);
-    }
+    renderChart();
+
+
+
+    // for (let i = 0; i < productArray.length; i++) {
+    //   let resultElem = document.createElement('li');
+    //   resultElem.textContent = `${productArray[i].name}: Views: ${productArray[i].views} Votes:
+    //    ${productArray[i].votes}`;
+    //   results.appendChild(resultElem);
+    // }
     buttonElem.removeEventListener('click', handleShowResults);
   }
 }
