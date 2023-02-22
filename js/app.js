@@ -91,14 +91,14 @@ function renderChart(){
       datasets:[{
         label: '# of Votes',
         data: productVotes,
-        borderWidth: 5,
+        borderWidth: 3,
         backgroundColor: ['blue'],
         borderColor: ['black'],
       },
       {
         label: '# of Views',
         data: productViews,
-        borderWidth: 5,
+        borderWidth: 3,
         backgroundColor: ['black'],
         borderColor: ['blue'],
       },
