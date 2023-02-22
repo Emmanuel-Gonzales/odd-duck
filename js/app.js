@@ -28,18 +28,23 @@ function randomImg() {
   return Math.floor(Math.random() * productArray.length);
 }
 
-function renderImg() {
-  let imgOneIndex = randomImg();
-  let imgTwoIndex = randomImg();
-  let imgThreeIndex = randomImg();
+let indexArray = [];
 
-  while (imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex) {
-    imgTwoIndex = randomImg();
-    imgThreeIndex = randomImg();
+function renderImg() {
+
+  while(indexArray.length < 6){
+    let randomNum = randomImg();
+    if (!indexArray.includes(randomNum)){
+      indexArray.unshift(randomNum);
+    }
   }
-  while (imgTwoIndex === imgThreeIndex) {
-    imgThreeIndex = randomImg();
-  }
+
+
+  let imgOneIndex = indexArray.pop();
+  let imgTwoIndex = indexArray.pop();
+  let imgThreeIndex = indexArray.pop();
+
+  console.log(imgOneIndex, imgTwoIndex, imgThreeIndex);
 
   imgOne.src = productArray[imgOneIndex].image;
   imgOne.alt = productArray[imgOneIndex].name;
@@ -86,6 +91,7 @@ function renderChart(){
 
   let chartObj = {
     type: 'bar',
+    backgroundColor:['blue'],
     data: {
       labels: productNames,
       datasets:[{
