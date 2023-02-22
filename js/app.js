@@ -32,9 +32,9 @@ let indexArray = [];
 
 function renderImg() {
 
-  while(indexArray.length < 6){
+  while (indexArray.length < 6) {
     let randomNum = randomImg();
-    if (!indexArray.includes(randomNum)){
+    if (!indexArray.includes(randomNum)) {
       indexArray.unshift(randomNum);
     }
   }
@@ -73,13 +73,13 @@ function renderImg() {
 }
 
 // ***** HELPER FUNCTION TO RENDER CHART *****
-function renderChart(){
+function renderChart() {
 
   let productNames = [];
   let productVotes = [];
   let productViews = [];
 
-  for (let i = 0; i < productArray.length; i++){
+  for (let i = 0; i < productArray.length; i++) {
     productNames.push(productArray[i].name);
     productVotes.push(productArray[i].votes);
     productViews.push(productArray[i].views);
@@ -91,23 +91,24 @@ function renderChart(){
 
   let chartObj = {
     type: 'bar',
-    backgroundColor:['blue'],
+    backgroundColor: ['blue'],
     data: {
       labels: productNames,
-      datasets:[{
-        label: '# of Votes',
-        data: productVotes,
-        borderWidth: 3,
-        backgroundColor: ['blue'],
-        borderColor: ['black'],
-      },
-      {
-        label: '# of Views',
-        data: productViews,
-        borderWidth: 3,
-        backgroundColor: ['black'],
-        borderColor: ['blue'],
-      },
+      datasets: [
+        {
+          label: '# of Votes',
+          data: productVotes,
+          borderWidth: 3,
+          backgroundColor: ['blue'],
+          borderColor: ['black'],
+        },
+        {
+          label: '# of Views',
+          data: productViews,
+          borderWidth: 3,
+          backgroundColor: ['black'],
+          borderColor: ['blue'],
+        },
       ]
     },
     options: {
@@ -141,8 +142,8 @@ function handleImgClick(event) {
 
 }
 
-function handleShowResults(){
-  if (votingRounds === 0){
+function handleShowResults() {
+  if (votingRounds === 0) {
     renderChart();
 
 
