@@ -44,7 +44,7 @@ function renderImg() {
   let imgTwoIndex = indexArray.pop();
   let imgThreeIndex = indexArray.pop();
 
-  console.log(imgOneIndex, imgTwoIndex, imgThreeIndex);
+  // console.log(imgOneIndex, imgTwoIndex, imgThreeIndex);
 
   imgOne.src = productArray[imgOneIndex].image;
   imgOne.alt = productArray[imgOneIndex].name;
@@ -85,9 +85,9 @@ function renderChart() {
     productViews.push(productArray[i].views);
   }
 
-  console.log(productNames);
-  console.log(productVotes);
-  console.log(productViews);
+  // console.log(productNames);
+  // console.log(productVotes);
+  // console.log(productViews);
 
   let chartObj = {
     type: 'bar',
@@ -125,7 +125,7 @@ function renderChart() {
 // ***** EVENT HANDLERS *****
 function handleImgClick(event) {
   let imgClicked = event.target.title;
-  console.log(imgClicked);
+  // console.log(imgClicked);
 
   for (let i = 0; i < productArray.length; i++) {
     if (imgClicked === productArray[i].name)
@@ -133,11 +133,16 @@ function handleImgClick(event) {
   }
 
   votingRounds--;
-  console.log(votingRounds);
-
+  // console.log(votingRounds);
   renderImg();
+
   if (votingRounds === 0) {
     imgSection.removeEventListener('click', handleImgClick);
+
+    let productStrings = JSON.stringify(productArray);
+    console.log('Product as Strings >>> ', productStrings);
+
+    localStorage.setItem('myProducts', productStrings);
   }
 
 }
@@ -159,27 +164,52 @@ function handleShowResults() {
 }
 
 // ***** EXECTUABLE CODE *****
-let bag = new Product('bag');
-let banana = new Product('banana');
-let bathroom = new Product('bathroom');
-let boots = new Product('boots');
-let breakfast = new Product('breakfast');
-let bubblegum = new Product('bubblegum');
-let chair = new Product('chair');
-let cthulhu = new Product('cthulhu');
-let dogDuck = new Product('dog-duck');
-let dragon = new Product('dragon');
-let pen = new Product('pen');
-let petSweep = new Product('pet-sweep');
-let scissors = new Product('scissors');
-let shark = new Product('shark');
-let sweep = new Product('sweep', 'png');
-let tauntaun = new Product('tauntaun');
-let unicorn = new Product('unicorn');
-let waterCan = new Product('water-can');
-let wineGlass = new Product('wine-glass');
 
-productArray.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass);
+let retrievedProducts = localStorage.getItem('myProducts');
+console.log('Products from LS >>>', retrievedProducts);
+
+let parsedProducts = JSON.parse(retrievedProducts);
+console.log('Products back to normal  >>>', parsedProducts);
+
+if (retrievedProducts) {
+  for (let i = 0; i < parsedProducts.length; i++) {
+    if (parsedProducts[i].name === 'sweep') {
+      let reconstructedSweep = new Product(parsedProducts[i].name, 'png');
+      reconstructedSweep.views = parsedProducts[i].views;
+      reconstructedSweep.votes = parsedProducts[i].votes;
+      productArray.push(reconstructedSweep);
+    } else {
+      let reconstructedProduct = new Product(parsedProducts[i].name);
+      reconstructedProduct.views = parsedProducts[i].views;
+      reconstructedProduct.votes = parsedProducts[i].votes;
+      productArray.push(reconstructedProduct);
+    }
+  }
+} else {
+  let bag = new Product('bag');
+  let banana = new Product('banana');
+  let bathroom = new Product('bathroom');
+  let boots = new Product('boots');
+  let breakfast = new Product('breakfast');
+  let bubblegum = new Product('bubblegum');
+  let chair = new Product('chair');
+  let cthulhu = new Product('cthulhu');
+  let dogDuck = new Product('dog-duck');
+  let dragon = new Product('dragon');
+  let pen = new Product('pen');
+  let petSweep = new Product('pet-sweep');
+  let scissors = new Product('scissors');
+  let shark = new Product('shark');
+  let sweep = new Product('sweep', 'png');
+  let tauntaun = new Product('tauntaun');
+  let unicorn = new Product('unicorn');
+  let waterCan = new Product('water-can');
+  let wineGlass = new Product('wine-glass');
+
+
+  productArray.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass);
+}
+
 
 renderImg();
 imgSection.addEventListener('click', handleImgClick);
