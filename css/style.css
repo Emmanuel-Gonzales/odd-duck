@@ -34,3 +34,24 @@ header{
   font-size: 50px;
   
 }
+
+body{
+  background-color: black;
+}
+
+header{
+  /* color: #0000FF; */
+
+  font-family: Montserrat;
+  text-align: center;
+}
+
+h1{
+  margin: 1%;
+}
+
+#title{
+  background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
